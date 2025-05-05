@@ -104,9 +104,12 @@
                             <input type="text" placeholder="State*" class="input-field">
                             <input type="text" placeholder="Postal Code*" class="input-field">
                             <input type="text" placeholder="Postal Code*" class="input-field">
-                            <select name="" id="">
+                            <select id="country" class="input-field">
                                 <option value="">Country*</option>
-                            </select>
+                                <option value="India">India</option>
+                                <option value="USA">USA</option>
+                                <option value="UK">UK</option>
+                              </select>
                             <input type="text" placeholder="Date of Birth*" class="input-field">
                             <input type="text" placeholder="Bussiness Email*" class="input-field">
                             <input type="text" placeholder="Facebook URL" class="input-field">
@@ -202,17 +205,23 @@
         const form = document.querySelector("form");
         const inputs = document.querySelectorAll(".input-field");
         const checkbox = document.getElementById("check");
+        const countrySelect = document.getElementById("country");
       
-        // Filter required fields only (placeholder contains *)
+        // Filter required text inputs only
         const requiredInputs = Array.from(inputs).filter(input =>
-          input.placeholder.includes("*")
+          input.placeholder && input.placeholder.includes("*")
         );
       
-        // Real-time validation for required fields
+        // Real-time validation for text inputs
         requiredInputs.forEach((input) => {
           input.addEventListener("input", () => {
             validateField(input);
           });
+        });
+      
+        // Real-time validation for country dropdown
+        countrySelect.addEventListener("change", () => {
+          validateSelect(countrySelect);
         });
       
         function validateField(input) {
@@ -237,31 +246,39 @@
           return isValid;
         }
       
+        function validateSelect(select) {
+          const isValid = select.value !== "";
+          select.classList.toggle("error", !isValid);
+          return isValid;
+        }
+      
         form.addEventListener("submit", function (e) {
           e.preventDefault();
           let formIsValid = true;
       
+          // Validate text inputs
           requiredInputs.forEach((input) => {
             const isValid = validateField(input);
             if (!isValid) formIsValid = false;
           });
       
-        
+          // Validate country select
+          const isCountryValid = validateSelect(countrySelect);
+          if (!isCountryValid) formIsValid = false;
+      
+          // Validate checkbox
+          if (!checkbox.checked) {
+            formIsValid = false;
+            alert("Please accept the Terms & Privacy Policy.");
+          }
       
           if (formIsValid) {
             alert("Form submitted successfully!");
-            // form.submit(); // Uncomment to submit
-          } else {
-            // alert("Please correct the highlighted fields.");
+            // form.submit(); // Uncomment to actually submit
           }
-
-          if (!checkbox.checked) {
-            // alert("Please accept the Terms & Privacy Policy.");
-            formIsValid = true;
-          }
-
         });
       </script>
+      
       
 
 </body>
