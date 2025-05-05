@@ -90,8 +90,38 @@
                         <h2 class="ambassador-cta__heading">PUFF YEAH, I’M IN!</h2>
                         <p class="ambassador-cta__subtext">Fill out the form. Unwrap goodness.</p>
                     </div>
-                    <div class="ambassador-cta__cta ambassador-program__cta">
-                        <a href="#" class="ambassador-cta__button ambassador-program__button">SUBMIT</a>
+                    <div class="ambassador-program-form">
+                        <form action="#">
+                            <input type="text" placeholder="First Name*" class="input-field">
+                            <input type="text" placeholder="Last Mame*" class="input-field">
+                            <input type="email" name="" id="" placeholder="Email*" class="input-field">
+                            <input type="text" placeholder="Password*" class="input-field">
+                            <input type="text" placeholder="Confirm Password*" class="input-field">
+                            <input type="text" placeholder="Preferred Ambassador Code*" class="input-field">
+                            <input type="text" placeholder="PayPal Email*" class="input-field">
+                            <input type="text" placeholder="Address*" class="input-field">
+                            <input type="text" placeholder="City*" class="input-field">
+                            <input type="text" placeholder="State*" class="input-field">
+                            <input type="text" placeholder="Postal Code*" class="input-field">
+                            <input type="text" placeholder="Postal Code*" class="input-field">
+                            <select name="" id="">
+                                <option value="">Country*</option>
+                            </select>
+                            <input type="text" placeholder="Date of Birth*" class="input-field">
+                            <input type="text" placeholder="Bussiness Email*" class="input-field">
+                            <input type="text" placeholder="Facebook URL" class="input-field">
+                            <input type="text" placeholder="TikTok Username" class="input-field">
+                            <input type="text" placeholder="Phone" class="input-field">
+                            <input type="text" placeholder="Referred By (if applicable)" class="input-field">
+                            <label for="check" class="checkbox">
+                                <input type="checkbox" name="check" id="check">
+                                <span>Check the box to our <a href="#">Terms of Service</a> & <a href="#">Privacy Policy*</a></span>
+                            </label>
+
+                            <div class="ambassador-cta__cta ambassador-program__cta">
+                                <button type="submit" class="ambassador-cta__button ambassador-program__button">SUBMIT</button>
+                            </div>
+                        </form>
                     </div>
                 </div>
 
@@ -167,6 +197,72 @@
         </div>
     </footer>
     
+
+    <script>
+        const form = document.querySelector("form");
+        const inputs = document.querySelectorAll(".input-field");
+        const checkbox = document.getElementById("check");
+      
+        // Filter required fields only (placeholder contains *)
+        const requiredInputs = Array.from(inputs).filter(input =>
+          input.placeholder.includes("*")
+        );
+      
+        // Real-time validation for required fields
+        requiredInputs.forEach((input) => {
+          input.addEventListener("input", () => {
+            validateField(input);
+          });
+        });
+      
+        function validateField(input) {
+          const value = input.value.trim();
+          let isValid = true;
+      
+          if (value === "") {
+            isValid = false;
+          }
+      
+          if (input.type === "email") {
+            const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+            isValid = emailRegex.test(value);
+          }
+      
+          if (input.placeholder === "Confirm Password*") {
+            const password = requiredInputs.find(i => i.placeholder === "Password*").value;
+            isValid = value === password;
+          }
+      
+          input.classList.toggle("error", !isValid);
+          return isValid;
+        }
+      
+        form.addEventListener("submit", function (e) {
+          e.preventDefault();
+          let formIsValid = true;
+      
+          requiredInputs.forEach((input) => {
+            const isValid = validateField(input);
+            if (!isValid) formIsValid = false;
+          });
+      
+        
+      
+          if (formIsValid) {
+            alert("Form submitted successfully!");
+            // form.submit(); // Uncomment to submit
+          } else {
+            // alert("Please correct the highlighted fields.");
+          }
+
+          if (!checkbox.checked) {
+            // alert("Please accept the Terms & Privacy Policy.");
+            formIsValid = true;
+          }
+
+        });
+      </script>
+      
 
 </body>
 
